@@ -9,24 +9,64 @@
 import Foundation
 
 class APIRequestManager {
+    static let peopleEndpoint = "https://powerful-forest-36673.herokuapp.com/people"
     static let shared = APIRequestManager()
     private init() {}
     
-    func getData(endpoint: String, callback: @escaping (Data?) -> Void) {
-        guard let myURL = URL(string: endpoint) else {
-            print("endpoint \(endpoint) cannot be converted to URL")
+    func getRequest(endpoint: String, callback: @escaping (Data?) -> Void) {
+        guard let requestURL = URL(string: endpoint) else {
+            print("Endpoint \(endpoint) cannot be converted to URL")
             return }
 
         let session = URLSession(configuration: URLSessionConfiguration.default)
-        session.dataTask(with: myURL) { (data, response, error) in
+        session.dataTask(with: requestURL) { (data, response, error) in
             if let error = error {
-                print("Error durring session: \(error)")
+                print("GET request error: \(error)")
             }
-            guard let validData = data else {
-                print("data is nil")
+            if let response = response as? HTTPURLResponse {
+                print("Response status code: \(response.statusCode)")
+            }
+            guard let data = data else {
+                print("Data is nil")
                 return }
-            callback(validData)
+            callback(data)
             }.resume()
     }
     
+    
+    func postRequest(endpoint: String, data: [String: Any]) {
+        guard let requestURL = URL(string: endpoint) else {
+            print("Endpoint \(endpoint) cannot be converted to URL")
+            return }
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let body = try JSONSerialization.data(withJSONObject: data, options: [])
+            request.httpBody = body
+        } catch {
+            print("Error serializing body: \(error)")
+        }
+        
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        session.dataTask(with: request) { (data, response, error) in
+            
+            
+            if let error = error {
+                print("Post request error: \(error)")
+            }
+            if let response = response as? HTTPURLResponse {
+                print("Response status code: \(response.statusCode)")
+            }
+            
+            guard data != nil else {
+                print("Data is nil")
+                return }
+
+            }.resume()
+    }
 }
+

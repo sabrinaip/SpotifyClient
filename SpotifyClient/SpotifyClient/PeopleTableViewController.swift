@@ -12,7 +12,6 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
 
     @IBOutlet weak var searchIDBar: UISearchBar!
     
-    let endpoint: String = "https://powerful-forest-36673.herokuapp.com/people"
     var people = [Person]() {
         didSet {
             self.tableView.reloadData()
@@ -31,14 +30,13 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - Helper functions
     
     func loadPeople() {
-        APIRequestManager.shared.getData(endpoint: endpoint) { (data) in
+        APIRequestManager.shared.getRequest(endpoint: APIRequestManager.peopleEndpoint) { (data) in
             guard let data = data else { return }
             DispatchQueue.main.async {
                 self.people = Person.getAllPeople(from: data)
             }
         }
     }
-    
 
     // MARK: - Table view data source
 
@@ -100,7 +98,7 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let indexPath = tableView.indexPathForSelectedRow,
             let detailsVC = segue.destination as? PersonDetailViewController else { return }
-        detailsVC.idEndpoint = "\(endpoint)/\(people[indexPath.row].id)"
+        detailsVC.idEndpoint = "\(APIRequestManager.peopleEndpoint)/\(people[indexPath.row].id)"
     }
 
 }

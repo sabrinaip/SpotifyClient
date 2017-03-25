@@ -19,7 +19,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     var idEndpoint: String? {
         didSet {
             guard let endpoint = idEndpoint else { return }
-            APIRequestManager.shared.getData(endpoint: endpoint) { (data) in
+            APIRequestManager.shared.getRequest(endpoint: endpoint) { (data) in
                 guard let data = data else { return }
                 DispatchQueue.main.async {
                     self.person = Person.getPerson(from: data)
@@ -44,6 +44,8 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         if let idEndpoint = idEndpoint {
             print(idEndpoint)
+        } else {
+            enableEditting()
         }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -57,6 +59,20 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     //MARK: - Actions
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let name = nameTextField.text,
+            name != "",
+            let city = favoriteCityTextField.text,
+            city != ""
+            else { return }
+        
+        let data = [
+            "name" : name,
+            "favoriteCity" : city
+        ]
+        
+        if idEndpoint == nil {
+            APIRequestManager.shared.postRequest(endpoint: APIRequestManager.peopleEndpoint, data: data)
+        }
         
         editButton.isHidden = false
         
@@ -65,9 +81,17 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         
         favoriteCityTextField.isUserInteractionEnabled = false
         favoriteCityTextField.borderStyle = .none
+        
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
+        enableEditting()
+    }
+    
+    // MARK: - Helper functions
+    
+    func enableEditting() {
         editButton.isHidden = true
         
         nameTextField.isUserInteractionEnabled = true
@@ -75,6 +99,13 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         
         favoriteCityTextField.isUserInteractionEnabled = true
         favoriteCityTextField.borderStyle = .roundedRect
+    }
+    
+    // MARK: - TextField Delegate and keyboard functions
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        dismissKeyboard()
+        return true
     }
     
     func dismissKeyboard() {

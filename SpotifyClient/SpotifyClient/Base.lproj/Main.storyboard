@@ -62,7 +62,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="wQI-fI-8lM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="t0i-ar-Bec"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="t0i-ar-Bec">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="show" id="Noh-c9-emW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="r61-mu-zp7" id="p9G-Wd-JHd"/>
@@ -184,4 +188,7 @@
             <point key="canvasLocation" x="-546.39999999999998" y="135.38230884557723"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="hQ0-Tw-v3X"/>
+    </inferredMetricsTieBreakers>
 </document>
