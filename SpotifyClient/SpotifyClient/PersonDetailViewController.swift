@@ -65,6 +65,8 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             inEditMode = false
         } else {
             inEditMode = true
+            nameTextField.text = "Sean"
+            favoriteCityTextField.text = "New York"
         }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -115,6 +117,9 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.errorLabel.isHidden = true
+        if favoriteCityTextField.text == "New York" {
+            favoriteCityTextField.text = "Brooklyn"
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
