@@ -55,7 +55,7 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCellIdentifier", for: indexPath)
         let person = people[indexPath.row]
         cell.textLabel?.text = person.name
-        cell.detailTextLabel?.text = person.favoriteCity
+        cell.detailTextLabel?.text = "\(person.favoriteCity)"
         return cell
     }
     
@@ -95,14 +95,12 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     }
     */
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        guard let indexPath = tableView.indexPathForSelectedRow,
+            let detailsVC = segue.destination as? PersonDetailViewController else { return }
+        detailsVC.idEndpoint = "\(endpoint)/\(people[indexPath.row].id)"
     }
-    */
 
 }

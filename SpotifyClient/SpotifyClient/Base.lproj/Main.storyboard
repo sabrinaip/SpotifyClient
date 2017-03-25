@@ -19,24 +19,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Czd-c7-mOq">
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="hze-Ts-SZs">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <outlet property="delegate" destination="oIS-7X-wKp" id="IDA-oz-ctv"/>
+                                <outlet property="delegate" destination="oIS-7X-wKp" id="No6-4h-Zme"/>
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PersonCellIdentifier" id="gda-te-4ic">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PersonCellIdentifier" textLabel="9Du-Zp-Ud0" detailTextLabel="F19-nX-zME" style="IBUITableViewCellStyleSubtitle" id="gda-te-4ic">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gda-te-4ic" id="okJ-Ia-V6u">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Du-Zp-Ud0">
+                                            <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F19-nX-zME">
+                                            <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="hQ0-Tw-v3X"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="viewDetails" id="hQ0-Tw-v3X"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -46,22 +62,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="wQI-fI-8lM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="t0i-ar-Bec">
-                            <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="pQy-3k-Ubo"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="t0i-ar-Bec"/>
                     </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="r61-mu-zp7" id="p9G-Wd-JHd"/>
-                        <outlet property="searchIDBar" destination="Czd-c7-mOq" id="A8g-FW-TRl"/>
+                        <outlet property="searchIDBar" destination="hze-Ts-SZs" id="ola-24-EcP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eum-lu-n3z" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="r61-mu-zp7">
                     <connections>
                         <outlet property="delegate" destination="oIS-7X-wKp" id="eV1-N9-2MK"/>
-                        <outlet property="searchBar" destination="Czd-c7-mOq" id="cul-ZI-8wc"/>
                         <outlet property="searchContentsController" destination="oIS-7X-wKp" id="SVv-Rm-g0x"/>
                         <outlet property="searchResultsDataSource" destination="oIS-7X-wKp" id="u59-tw-yny"/>
                         <outlet property="searchResultsDelegate" destination="oIS-7X-wKp" id="DGk-zN-bOQ"/>
@@ -82,17 +93,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Favorite City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJq-ir-Iaq">
-                                <rect key="frame" x="16" y="303.5" width="297" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Ic2-fT-KKA"/>
-                                </connections>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8C-AC-617">
-                                <rect key="frame" x="16" y="253.5" width="297" height="30"/>
+                                <rect key="frame" x="120" y="245" width="239" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -100,33 +102,49 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="SRR-dT-QGn"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uET-sq-iyr">
-                                <rect key="frame" x="321" y="303.5" width="30" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LlG-Mz-PqE">
+                                <rect key="frame" x="67" y="248" width="45" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RLT-Vw-NHV">
+                                <rect key="frame" x="16" y="298.5" width="96" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iLK-KE-3HK">
+                                <rect key="frame" x="172" y="333.5" width="30" height="30"/>
                                 <state key="normal" title="Edit"/>
                                 <connections>
-                                    <action selector="favoriteCityButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rcY-mq-yvs"/>
+                                    <action selector="editButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pu6-1G-rWR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOg-JE-Te7">
-                                <rect key="frame" x="321" y="253.5" width="30" height="30"/>
-                                <state key="normal" title="Edit"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Favorite City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJq-ir-Iaq">
+                                <rect key="frame" x="120" y="295" width="239" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="nameEditButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dfe-e8-F9W"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Ic2-fT-KKA"/>
                                 </connections>
-                            </button>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bOg-JE-Te7" firstAttribute="trailing" secondItem="uET-sq-iyr" secondAttribute="trailing" id="HVM-Xz-jBf"/>
-                            <constraint firstItem="uET-sq-iyr" firstAttribute="centerY" secondItem="FJq-ir-Iaq" secondAttribute="centerY" id="Q9W-EX-izT"/>
+                            <constraint firstItem="RLT-Vw-NHV" firstAttribute="baseline" secondItem="FJq-ir-Iaq" secondAttribute="baseline" id="COW-kD-gDg"/>
+                            <constraint firstItem="RLT-Vw-NHV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="FLi-ga-Z9T"/>
+                            <constraint firstItem="iLK-KE-3HK" firstAttribute="top" secondItem="FJq-ir-Iaq" secondAttribute="bottom" constant="8" id="HsE-mk-wJQ"/>
+                            <constraint firstItem="iLK-KE-3HK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LuQ-8m-NiG"/>
+                            <constraint firstItem="LlG-Mz-PqE" firstAttribute="baseline" secondItem="v8C-AC-617" secondAttribute="baseline" id="Q5L-jV-RsR"/>
                             <constraint firstItem="v8C-AC-617" firstAttribute="trailing" secondItem="FJq-ir-Iaq" secondAttribute="trailing" id="YYA-E1-S6C"/>
+                            <constraint firstItem="FJq-ir-Iaq" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="cIS-If-JJD"/>
                             <constraint firstItem="v8C-AC-617" firstAttribute="leading" secondItem="FJq-ir-Iaq" secondAttribute="leading" id="ho9-qn-tvW"/>
-                            <constraint firstItem="FJq-ir-Iaq" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="lRy-YN-voT"/>
-                            <constraint firstItem="FJq-ir-Iaq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="prV-4a-5na"/>
+                            <constraint firstItem="iLK-KE-3HK" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="k5s-pc-zon"/>
+                            <constraint firstItem="FJq-ir-Iaq" firstAttribute="leading" secondItem="RLT-Vw-NHV" secondAttribute="trailing" constant="8" id="lTJ-NZ-WgB"/>
                             <constraint firstItem="FJq-ir-Iaq" firstAttribute="top" secondItem="v8C-AC-617" secondAttribute="bottom" constant="20" id="qgI-EF-EOG"/>
-                            <constraint firstItem="bOg-JE-Te7" firstAttribute="centerY" secondItem="v8C-AC-617" secondAttribute="centerY" id="rWx-bY-b86"/>
-                            <constraint firstItem="uET-sq-iyr" firstAttribute="leading" secondItem="FJq-ir-Iaq" secondAttribute="trailing" constant="8" id="yZb-4t-0oq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="uET-sq-iyr" secondAttribute="trailing" constant="8" id="zEp-MN-GNN"/>
+                            <constraint firstItem="v8C-AC-617" firstAttribute="leading" secondItem="LlG-Mz-PqE" secondAttribute="trailing" constant="8" id="z2O-CU-YiS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="rbb-PL-5yZ">
@@ -137,10 +155,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="favoriteCityBottomConstraint" destination="lRy-YN-voT" id="vBW-Om-NDH"/>
-                        <outlet property="favoriteCityEditButton" destination="uET-sq-iyr" id="acX-12-fQ3"/>
+                        <outlet property="editButton" destination="iLK-KE-3HK" id="vbQ-57-RMm"/>
+                        <outlet property="editButtonTopConstraint" destination="k5s-pc-zon" id="811-YA-Wb3"/>
                         <outlet property="favoriteCityTextField" destination="FJq-ir-Iaq" id="BFR-03-MCv"/>
-                        <outlet property="nameEditButton" destination="bOg-JE-Te7" id="byi-7O-Udy"/>
                         <outlet property="nameTextField" destination="v8C-AC-617" id="dgI-3x-PzA"/>
                     </connections>
                 </viewController>
@@ -167,7 +184,4 @@
             <point key="canvasLocation" x="-546.39999999999998" y="135.38230884557723"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="hQ0-Tw-v3X"/>
-    </inferredMetricsTieBreakers>
 </document>

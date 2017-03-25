@@ -31,6 +31,25 @@ class Person {
         self.init(id: id, name: name, favoriteCity: favoriteCity)
     }
     
+    static func getPerson(from data: Data) -> Person? {
+        var person: Person?
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let response = json as? [String: AnyObject] else {
+                throw PersonModelError.response(json: json)
+            }
+            
+            person = try Person(from: response)
+            
+        } catch let PersonModelError.response(json: json) {
+            print("Error encountered with json response: \(json)")
+        } catch {
+            print("Error encountered: \(error)")
+        }
+        return person
+    }
+    
     static func getAllPeople(from data: Data) -> [Person] {
         var peopleArr = [Person]()
         
