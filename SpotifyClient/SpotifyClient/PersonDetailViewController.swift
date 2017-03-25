@@ -14,7 +14,8 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var favoriteCityTextField: UITextField!
 
     @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var editButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cityTextFieldBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var errorLabel: UILabel!
 
     var idEndpoint: String? {
         didSet {
@@ -35,16 +36,35 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             self.title = String(person.id)
             nameTextField.text = person.name
             favoriteCityTextField.text = person.favoriteCity
-            disableEditting()
+            inEditMode = false
+        }
+    }
+    
+    var inEditMode: Bool? {
+        didSet {
+            guard let inEditMode = inEditMode else { return }
+            if inEditMode {
+                editButton.isHidden = true
+                nameTextField.isUserInteractionEnabled = true
+                nameTextField.borderStyle = .roundedRect
+                favoriteCityTextField.isUserInteractionEnabled = true
+                favoriteCityTextField.borderStyle = .roundedRect
+            } else {
+                editButton.isHidden = false
+                nameTextField.isUserInteractionEnabled = false
+                nameTextField.borderStyle = .none
+                favoriteCityTextField.isUserInteractionEnabled = false
+                favoriteCityTextField.borderStyle = .none
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let idEndpoint = idEndpoint {
-            print(idEndpoint)
+        if idEndpoint != nil {
+            inEditMode = false
         } else {
-            enableEditting()
+            inEditMode = true
         }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -62,7 +82,9 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             name != "",
             let city = favoriteCityTextField.text,
             city != ""
-            else { return }
+            else {
+                errorLabel.isHidden = false
+                return }
         
         let jsonObject = [
             "name" : name,
@@ -80,38 +102,25 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
                 print("posted")
             })
         }
-        disableEditting()
+        inEditMode = false
         
-        _ = self.navigationController?.popViewController(animated: true)
+//        _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
-        enableEditting()
-    }
-    
-    // MARK: - Helper functions
-    
-    func enableEditting() {
-        editButton.isHidden = true
-        
-        nameTextField.isUserInteractionEnabled = true
-        nameTextField.borderStyle = .roundedRect
-        
-        favoriteCityTextField.isUserInteractionEnabled = true
-        favoriteCityTextField.borderStyle = .roundedRect
-    }
-    
-    func disableEditting() {
-        editButton.isHidden = false
-        
-        nameTextField.isUserInteractionEnabled = false
-        nameTextField.borderStyle = .none
-        
-        favoriteCityTextField.isUserInteractionEnabled = false
-        favoriteCityTextField.borderStyle = .none
+        inEditMode = true
     }
     
     // MARK: - TextField Delegate and keyboard functions
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.errorLabel.isHidden = true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        self.errorLabel.isHidden = true
+        return true
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissKeyboard()
@@ -126,19 +135,19 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             
-            if editButton.frame.minY > self.view.frame.height - keyboardSize.height {
+            if favoriteCityTextField.frame.maxY > self.view.frame.height - keyboardSize.height {
 
-            editButtonTopConstraint.isActive = false
-            editButtonTopConstraint = editButton.topAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -keyboardHeight)
-            editButtonTopConstraint.isActive = true
+            cityTextFieldBottomConstraint.isActive = false
+            cityTextFieldBottomConstraint = favoriteCityTextField.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -keyboardHeight)
+            cityTextFieldBottomConstraint.isActive = true
             }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        editButtonTopConstraint.isActive = false
-        editButtonTopConstraint = editButton.topAnchor.constraint(equalTo: self.view.centerYAnchor)
-        editButtonTopConstraint.isActive = true
+        cityTextFieldBottomConstraint.isActive = false
+        cityTextFieldBottomConstraint = favoriteCityTextField.bottomAnchor.constraint(equalTo: self.view.centerYAnchor)
+        cityTextFieldBottomConstraint.isActive = true
     }
 
     

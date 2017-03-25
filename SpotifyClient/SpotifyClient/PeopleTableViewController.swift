@@ -20,6 +20,8 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,6 +39,30 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
                 self.people = Person.getAllPeople(from: data)
             }
         }
+    }
+    
+    // MARK: - SearchBarDelegate and keyboard functions
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        dismissKeyboard()
+        guard let id = searchIDBar.text, id != "" else {
+            if self.people.count == 0 {
+                self.loadPeople()
+            }
+            return true }
+        APIRequestManager.shared.makeRequest(ofType: .get, endpoint: "\(APIRequestManager.peopleEndpoint)/\(id)", with: nil) { (data) in
+            guard let data = data else { return }
+            DispatchQueue.main.async {
+                if let person = Person.getPerson(from: data) {
+                    self.people = [person]
+                }
+            }
+        }
+        return true
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     // MARK: - Table view data source
