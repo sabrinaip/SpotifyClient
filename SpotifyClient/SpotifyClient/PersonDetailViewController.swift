@@ -34,9 +34,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             self.title = person.id
             nameTextField.text = person.name
             favoriteCityTextField.text = person.favoriteCity
-            
-            nameTextField.borderStyle = .none
-            favoriteCityTextField.borderStyle = .none
+            disableEditting()
         }
     }
     
@@ -70,17 +68,13 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             "favoriteCity" : city
         ]
         
-        if idEndpoint == nil {
+        if let idEndpoint = idEndpoint {
+            APIRequestManager.shared.putRequest(endpoint: idEndpoint, data: data)
+        } else {
             APIRequestManager.shared.postRequest(endpoint: APIRequestManager.peopleEndpoint, data: data)
         }
-        
-        editButton.isHidden = false
-        
-        nameTextField.isUserInteractionEnabled = false
-        nameTextField.borderStyle = .none
-        
-        favoriteCityTextField.isUserInteractionEnabled = false
-        favoriteCityTextField.borderStyle = .none
+
+        disableEditting()
         
         _ = self.navigationController?.popViewController(animated: true)
     }
@@ -99,6 +93,16 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         
         favoriteCityTextField.isUserInteractionEnabled = true
         favoriteCityTextField.borderStyle = .roundedRect
+    }
+    
+    func disableEditting() {
+        editButton.isHidden = false
+        
+        nameTextField.isUserInteractionEnabled = false
+        nameTextField.borderStyle = .none
+        
+        favoriteCityTextField.isUserInteractionEnabled = false
+        favoriteCityTextField.borderStyle = .none
     }
     
     // MARK: - TextField Delegate and keyboard functions
