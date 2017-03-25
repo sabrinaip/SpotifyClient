@@ -14,18 +14,18 @@ enum PersonModelError: Error {
 }
 
 class Person {
-    var id: String
+    var id: Int
     var name: String
     var favoriteCity: String
     
-    init(id: String, name: String, favoriteCity: String) {
+    init(id: Int, name: String, favoriteCity: String) {
         self.id = id
         self.name = name
         self.favoriteCity = favoriteCity
     }
     
     convenience init?(from dict: [String: Any]) throws {
-        guard let id = dict["_id"] as? String,
+        guard let id = dict["_id"] as? Int,
             let name = dict["name"] as? String,
             let favoriteCity = dict["favoriteCity"] as? String else { throw PersonModelError.initPerson(dict: dict) }
         self.init(id: id, name: name, favoriteCity: favoriteCity)

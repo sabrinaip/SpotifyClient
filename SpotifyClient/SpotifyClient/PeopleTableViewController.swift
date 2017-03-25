@@ -30,7 +30,8 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - Helper functions
     
     func loadPeople() {
-        APIRequestManager.shared.getRequest(endpoint: APIRequestManager.peopleEndpoint) { (data) in
+        
+        APIRequestManager.shared.makeRequest(ofType: .get, endpoint: APIRequestManager.peopleEndpoint, with: nil) { (data) in
             guard let data = data else { return }
             DispatchQueue.main.async {
                 self.people = Person.getAllPeople(from: data)
@@ -66,8 +67,8 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
         guard editingStyle == .delete else { return }
         
         let idEndpoint = "\(APIRequestManager.peopleEndpoint)/\(people[indexPath.row].id)"
-        APIRequestManager.shared.deleteRequest(endpoint: idEndpoint) { (data) in
-            //tableView.deleteRows(at: [indexPath], with: .fade)
+        
+        APIRequestManager.shared.makeRequest(ofType: .delete, endpoint: idEndpoint, with: nil) { (data) in
             self.loadPeople()
         }
     }

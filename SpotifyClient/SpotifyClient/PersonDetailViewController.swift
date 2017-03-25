@@ -18,8 +18,9 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
 
     var idEndpoint: String? {
         didSet {
-            guard let endpoint = idEndpoint else { return }
-            APIRequestManager.shared.getRequest(endpoint: endpoint) { (data) in
+            guard let idEndpoint = idEndpoint else { return }
+            
+            APIRequestManager.shared.makeRequest(ofType: .get, endpoint: idEndpoint, with: nil) { (data) in
                 guard let data = data else { return }
                 DispatchQueue.main.async {
                     self.person = Person.getPerson(from: data)
@@ -31,7 +32,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     var person: Person? {
         didSet {
             guard let person = person else { return }
-            self.title = person.id
+            self.title = String(person.id)
             nameTextField.text = person.name
             favoriteCityTextField.text = person.favoriteCity
             disableEditting()
@@ -63,17 +64,22 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
             city != ""
             else { return }
         
-        let data = [
+        let jsonObject = [
             "name" : name,
             "favoriteCity" : city
         ]
         
         if let idEndpoint = idEndpoint {
-            APIRequestManager.shared.putRequest(endpoint: idEndpoint, data: data)
+            APIRequestManager.shared.makeRequest(ofType: .put, endpoint: idEndpoint, with: jsonObject, completion: { (data) in
+                // TO DO : MAKE POPUP
+                print("put")
+            })
         } else {
-            APIRequestManager.shared.postRequest(endpoint: APIRequestManager.peopleEndpoint, data: data)
+            APIRequestManager.shared.makeRequest(ofType: .post, endpoint: APIRequestManager.peopleEndpoint, with: jsonObject, completion: { (data) in
+                // TO DO : MAKE POPUP
+                print("posted")
+            })
         }
-
         disableEditting()
         
         _ = self.navigationController?.popViewController(animated: true)
