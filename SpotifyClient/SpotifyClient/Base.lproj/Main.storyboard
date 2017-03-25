@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--People Table View Controller-->
         <scene sceneID="wfW-NS-9Ew">
             <objects>
-                <tableViewController id="oIS-7X-wKp" sceneMemberID="viewController">
+                <tableViewController id="oIS-7X-wKp" customClass="PeopleTableViewController" customModule="SpotifyClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="BM2-DX-SYF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -54,6 +54,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="r61-mu-zp7" id="p9G-Wd-JHd"/>
+                        <outlet property="searchIDBar" destination="Czd-c7-mOq" id="A8g-FW-TRl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eum-lu-n3z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -72,7 +73,7 @@
         <!--Title-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SpotifyClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PersonDetailViewController" customModule="SpotifyClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -102,10 +103,16 @@
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uET-sq-iyr">
                                 <rect key="frame" x="321" y="303.5" width="30" height="30"/>
                                 <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="favoriteCityButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rcY-mq-yvs"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOg-JE-Te7">
                                 <rect key="frame" x="321" y="253.5" width="30" height="30"/>
                                 <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="nameEditButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dfe-e8-F9W"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -123,8 +130,19 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="rbb-PL-5yZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="u8v-tW-hHN"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="u8v-tW-hHN">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="lhe-lJ-aWU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="favoriteCityBottomConstraint" destination="lRy-YN-voT" id="vBW-Om-NDH"/>
+                        <outlet property="favoriteCityEditButton" destination="uET-sq-iyr" id="acX-12-fQ3"/>
+                        <outlet property="favoriteCityTextField" destination="FJq-ir-Iaq" id="BFR-03-MCv"/>
+                        <outlet property="nameEditButton" destination="bOg-JE-Te7" id="byi-7O-Udy"/>
+                        <outlet property="nameTextField" destination="v8C-AC-617" id="dgI-3x-PzA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,21 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		4BC83CF41E85D76600A731FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC83CF31E85D76600A731FE /* AppDelegate.swift */; };
-		4BC83CF61E85D76600A731FE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC83CF51E85D76600A731FE /* ViewController.swift */; };
 		4BC83CF91E85D76600A731FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC83CF71E85D76600A731FE /* Main.storyboard */; };
 		4BC83CFB1E85D76600A731FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC83CFA1E85D76600A731FE /* Assets.xcassets */; };
 		4BC83CFE1E85D76600A731FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC83CFC1E85D76600A731FE /* LaunchScreen.storyboard */; };
+		4BE4DE8D1E85F6870081B06E /* PeopleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE4DE8C1E85F6870081B06E /* PeopleTableViewController.swift */; };
+		4BE4DE8F1E85F6DE0081B06E /* PersonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE4DE8E1E85F6DE0081B06E /* PersonDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4BC83CF01E85D76600A731FE /* SpotifyClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC83CF31E85D76600A731FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4BC83CF51E85D76600A731FE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4BC83CF81E85D76600A731FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4BC83CFA1E85D76600A731FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4BC83CFD1E85D76600A731FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC83CFF1E85D76600A731FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BE4DE661E85F4CE0081B06E /* SpotifyClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SpotifyClient.xcodeproj; sourceTree = "<group>"; };
+		4BE4DE8C1E85F6870081B06E /* PeopleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleTableViewController.swift; sourceTree = "<group>"; };
+		4BE4DE8E1E85F6DE0081B06E /* PersonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,12 +58,8 @@
 		4BC83CF21E85D76600A731FE /* SpotifyClient */ = {
 			isa = PBXGroup;
 			children = (
-				4BC83CF31E85D76600A731FE /* AppDelegate.swift */,
-				4BC83CF51E85D76600A731FE /* ViewController.swift */,
-				4BC83CF71E85D76600A731FE /* Main.storyboard */,
-				4BC83CFA1E85D76600A731FE /* Assets.xcassets */,
-				4BC83CFC1E85D76600A731FE /* LaunchScreen.storyboard */,
-				4BC83CFF1E85D76600A731FE /* Info.plist */,
+				4BE4DE901E85F6EB0081B06E /* View Controllers */,
+				4BE4DE911E85F70E0081B06E /* Supporting Files */,
 			);
 			path = SpotifyClient;
 			sourceTree = "<group>";
@@ -69,6 +67,27 @@
 		4BE4DE671E85F4CE0081B06E /* Products */ = {
 			isa = PBXGroup;
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4BE4DE901E85F6EB0081B06E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4BE4DE8C1E85F6870081B06E /* PeopleTableViewController.swift */,
+				4BE4DE8E1E85F6DE0081B06E /* PersonDetailViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4BE4DE911E85F70E0081B06E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4BC83CF31E85D76600A731FE /* AppDelegate.swift */,
+				4BC83CF71E85D76600A731FE /* Main.storyboard */,
+				4BC83CFC1E85D76600A731FE /* LaunchScreen.storyboard */,
+				4BC83CFA1E85D76600A731FE /* Assets.xcassets */,
+				4BC83CFF1E85D76600A731FE /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,7 +168,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BC83CF61E85D76600A731FE /* ViewController.swift in Sources */,
+				4BE4DE8F1E85F6DE0081B06E /* PersonDetailViewController.swift in Sources */,
+				4BE4DE8D1E85F6870081B06E /* PeopleTableViewController.swift in Sources */,
 				4BC83CF41E85D76600A731FE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
