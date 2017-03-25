@@ -11,31 +11,54 @@ import UIKit
 class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
 
     @IBOutlet weak var searchIDBar: UISearchBar!
+    
+    let endpoint: String = "https://powerful-forest-36673.herokuapp.com/people"
+    var people = [Person]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadPeople()
+    }
+    
+    // MARK: - Helper functions
+    
+    func loadPeople() {
+        APIRequestManager.shared.getData(endpoint: endpoint) { (data) in
+            guard let data = data else { return }
+            DispatchQueue.main.async {
+                self.people = Person.getAllPeople(from: data)
+            }
+        }
+    }
+    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return people.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCellIdentifier", for: indexPath)
+        let person = people[indexPath.row]
+        cell.textLabel?.text = person.name
+        cell.detailTextLabel?.text = person.favoriteCity
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

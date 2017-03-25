@@ -9,24 +9,48 @@
 import Foundation
 
 enum PersonModelError: Error {
-    case parse(dict: [String: Any])
+    case initPerson(dict: [String: Any])
+    case response(json: Any)
 }
 
 class Person {
-    var id: Int
+    var id: String
     var name: String
     var favoriteCity: String
     
-    init(id: Int, name: String, favoriteCity: String) {
+    init(id: String, name: String, favoriteCity: String) {
         self.id = id
         self.name = name
         self.favoriteCity = favoriteCity
     }
     
     convenience init?(from dict: [String: Any]) throws {
-        guard let id = dict["_id"] as? Int,
+        guard let id = dict["_id"] as? String,
             let name = dict["name"] as? String,
-            let favoriteCity = dict["favoriteCity"] as? String else { throw PersonModelError.parse(dict: dict) }
+            let favoriteCity = dict["favoriteCity"] as? String else { throw PersonModelError.initPerson(dict: dict) }
         self.init(id: id, name: name, favoriteCity: favoriteCity)
+    }
+    
+    static func getAllPeople(from data: Data) -> [Person] {
+        var peopleArr = [Person]()
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let response = json as? [[String: AnyObject]] else {
+                throw PersonModelError.response(json: json)
+            }
+            
+            for dict in response {
+                if let personInit = try? Person(from: dict), let person = personInit {
+                    peopleArr.append(person)
+                }
+            }
+            
+        } catch let PersonModelError.response(json: json) {
+            print("Error encountered with json response: \(json)")
+        } catch {
+            print("Error encountered: \(error)")
+        }
+        return peopleArr
     }
 }
