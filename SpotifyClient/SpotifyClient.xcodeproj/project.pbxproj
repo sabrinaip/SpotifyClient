@@ -42,6 +42,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B13D41F1E872D32001CF414 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4BE4DE931E85FBA80081B06E /* Person.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		4BC83CE71E85D76600A731FE = {
 			isa = PBXGroup;
 			children = (
@@ -62,10 +70,9 @@
 		4BC83CF21E85D76600A731FE /* SpotifyClient */ = {
 			isa = PBXGroup;
 			children = (
+				4B13D41F1E872D32001CF414 /* Models */,
 				4BE4DE901E85F6EB0081B06E /* View Controllers */,
 				4BE4DE911E85F70E0081B06E /* Supporting Files */,
-				4BE4DE931E85FBA80081B06E /* Person.swift */,
-				4BE4DE951E86021E0081B06E /* APIRequestManager.swift */,
 			);
 			path = SpotifyClient;
 			sourceTree = "<group>";
@@ -87,6 +94,7 @@
 		4BE4DE911E85F70E0081B06E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4BE4DE951E86021E0081B06E /* APIRequestManager.swift */,
 				4BC83CF31E85D76600A731FE /* AppDelegate.swift */,
 				4BC83CF71E85D76600A731FE /* Main.storyboard */,
 				4BC83CFC1E85D76600A731FE /* LaunchScreen.storyboard */,

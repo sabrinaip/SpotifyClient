@@ -18,10 +18,16 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    var filteredPeople = [Person]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
+    var searchActive = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,22 +49,55 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: - SearchBarDelegate and keyboard functions
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        dismissKeyboard()
-        guard let id = searchIDBar.text, id != "" else {
-            if self.people.count == 0 {
-                self.loadPeople()
-            }
-            return true }
-        APIRequestManager.shared.makeRequest(ofType: .get, endpoint: "\(APIRequestManager.peopleEndpoint)/\(id)", with: nil) { (data) in
-            guard let data = data else { return }
-            DispatchQueue.main.async {
-                if let person = Person.getPerson(from: data) {
-                    self.people = [person]
-                }
-            }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+//        print("search button clicked")
+//        dismissKeyboard()
+//        guard let id = searchIDBar.text, id != "" else {
+//            if self.people.count == 0 {
+//                self.loadPeople()
+//            }
+//            return }
+//        print("\(APIRequestManager.peopleEndpoint)/\(id)")
+//        APIRequestManager.shared.makeRequest(ofType: .get, endpoint: "\(APIRequestManager.peopleEndpoint)/\(id)", with: nil) { (data) in
+//            guard let data = data else { return }
+//            DispatchQueue.main.async {
+//                if let person = Person.getPerson(from: data) {
+//                    self.people = [person]
+//                }
+//            }
+//        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredPeople = people.filter({ (person) -> Bool in
+            let text = person.id
+            let tmp: NSString = text as NSString
+            let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            return range.location != NSNotFound
+        })
+        if(filteredPeople.count == 0){
+            searchActive = false;
+        } else {
+            searchActive = true;
         }
-        return true
+        self.tableView.reloadData()
+    }
+
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchIDBar.resignFirstResponder()
     }
     
     func dismissKeyboard() {
@@ -72,15 +111,23 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(searchActive) {
+            return filteredPeople.count
+        }
         return people.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCellIdentifier", for: indexPath)
-        let person = people[indexPath.row]
+        var person = people[indexPath.row]
+        
+        if searchActive {
+            person = filteredPeople[indexPath.row]
+        }
+        
         cell.textLabel?.text = person.name
-        cell.detailTextLabel?.text = "\(person.favoriteCity)"
+        cell.detailTextLabel?.text = "\(person.favoriteCity), ID: \(person.id)"
         return cell
     }
     
@@ -104,7 +151,11 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let indexPath = tableView.indexPathForSelectedRow,
             let detailsVC = segue.destination as? PersonDetailViewController else { return }
-        detailsVC.idEndpoint = "\(APIRequestManager.peopleEndpoint)/\(people[indexPath.row].id)"
+        if searchActive{
+            detailsVC.idEndpoint = "\(APIRequestManager.peopleEndpoint)/\(filteredPeople[indexPath.row].id)"
+        } else {
+            detailsVC.idEndpoint = "\(APIRequestManager.peopleEndpoint)/\(people[indexPath.row].id)"
+        }
     }
 
 }

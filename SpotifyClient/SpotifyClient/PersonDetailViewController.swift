@@ -16,6 +16,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var cityTextFieldBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var saveBarButtonItem: UIBarButtonItem!
 
     var idEndpoint: String? {
         didSet {
@@ -33,7 +34,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     var person: Person? {
         didSet {
             guard let person = person else { return }
-            self.title = String(person.id)
+            self.title = person.id
             nameTextField.text = person.name
             favoriteCityTextField.text = person.favoriteCity
             inEditMode = false
@@ -49,21 +50,31 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
                 nameTextField.borderStyle = .roundedRect
                 favoriteCityTextField.isUserInteractionEnabled = true
                 favoriteCityTextField.borderStyle = .roundedRect
+                saveBarButtonItem.isEnabled = true
             } else {
                 editButton.isHidden = false
                 nameTextField.isUserInteractionEnabled = false
                 nameTextField.borderStyle = .none
                 favoriteCityTextField.isUserInteractionEnabled = false
                 favoriteCityTextField.borderStyle = .none
+                saveBarButtonItem.isEnabled = false
+
             }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let titleAttributes = [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 13)
+        ]
+        self.navigationController?.navigationBar.titleTextAttributes = titleAttributes
+        
         if idEndpoint != nil {
             inEditMode = false
         } else {
+            self.title = "Add Person"
             inEditMode = true
             nameTextField.text = "Sean"
             favoriteCityTextField.text = "New York"
@@ -95,18 +106,14 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
         
         if let idEndpoint = idEndpoint {
             APIRequestManager.shared.makeRequest(ofType: .put, endpoint: idEndpoint, with: jsonObject, completion: { (data) in
-                // TO DO : MAKE POPUP
-                print("put")
             })
         } else {
             APIRequestManager.shared.makeRequest(ofType: .post, endpoint: APIRequestManager.peopleEndpoint, with: jsonObject, completion: { (data) in
-                // TO DO : MAKE POPUP
-                print("posted")
             })
         }
         inEditMode = false
         
-//        _ = self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
@@ -117,7 +124,7 @@ class PersonDetailViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.errorLabel.isHidden = true
-        if favoriteCityTextField.text == "New York" {
+        if favoriteCityTextField.text == "New York", idEndpoint != nil {
             favoriteCityTextField.text = "Brooklyn"
         }
     }
