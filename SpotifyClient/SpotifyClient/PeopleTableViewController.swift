@@ -32,6 +32,7 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        searchActive = false
         loadPeople()
     }
     
@@ -83,10 +84,14 @@ class PeopleTableViewController: UITableViewController, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredPeople = people.filter({ (person) -> Bool in
-            let text = person.id
-            let tmp: NSString = text as NSString
-            let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-            return range.location != NSNotFound
+            let idNSString = person.id as NSString
+            let nameNSString = person.name as NSString
+            let cityNSString = person.favoriteCity as NSString
+            
+            let idRange = idNSString.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            let nameRange = nameNSString.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            let cityRange = cityNSString.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            return idRange.location != NSNotFound || nameRange.location != NSNotFound || cityRange.location != NSNotFound
         })
         if(filteredPeople.count == 0){
             searchActive = false;
